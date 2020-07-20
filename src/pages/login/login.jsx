@@ -9,11 +9,29 @@ import './login.less'
 import logo from './images/logo.png'
 
 
-const onFinish = values => {
-  console.log('Received values of form: ', values);
-};
+
 
 export default class Login extends Component {
+
+  onFinish = values => {
+    console.log('Received values of form: ', values);
+  };
+
+  /**对密码进行自定义验证  */
+  validatePwd=(rule,value)=>{
+    if (!value) {
+      return Promise.reject('密码不能为空！');
+    }else if (value.length < 4) {
+      return Promise.reject('密码最少4位！');
+    }else if (value.length > 12) {
+      return Promise.reject('密码最多12位！');
+    }else if(!/^[a-zA-Z0-9_]+$/.test(value)) {
+      return Promise.reject('密码必须是字母数字或下划线！');
+    }else{
+      return Promise.resolve();
+    }
+  }
+
   render() {
     return (
       <div className="login">
@@ -29,15 +47,28 @@ export default class Login extends Component {
             initialValues={{
               remember: true,
             }}
-            onFinish={onFinish}
+            onFinish={this.onFinish}
           >
             <Form.Item
               name="username"
               rules={[
                 {
                   required: true,
-                  message: 'Please input your Username!',
+                  whitespace:true,
+                  message: '必须输入用户名!',
                 },
+                {
+                  max: 12,
+                  message: '长度最多12位！',
+                },
+                {
+                  min: 4,
+                  message: '长度最少4位！',
+                },
+                {
+                  pattern: /^[a-zA-Z0-9_]+$/,
+                  message: '用户名必须是字母数字或下划线！',
+                }
               ]}
             >
               <Input 
@@ -48,9 +79,8 @@ export default class Login extends Component {
               name="password"
               rules={[
                 {
-                  required: true,
-                  message: 'Please input your Password!',
-                },
+                  validator:this.validatePwd
+                }
               ]}
             >
               <Input
