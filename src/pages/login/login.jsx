@@ -7,14 +7,26 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import './login.less'
 import logo from './images/logo.png'
+import {reqLogin} from '../../api'
+
 
 
 
 
 export default class Login extends Component {
 
-  onFinish = values => {
-    console.log('Received values of form: ', values);
+  onFinish = async (err,values) => {
+    // console.log('Received values of form: ', values);
+    //请求登录
+    console.log(err);
+    const {username,password} = values;
+    try{
+      const response = await reqLogin(username,password)
+      console.log('请求成功！',response.data)
+    }catch(error){
+      console.log("请求失败");
+    }
+    
   };
 
   /**对密码进行自定义验证  */
@@ -100,3 +112,20 @@ export default class Login extends Component {
     )
   }
 }
+
+
+/**
+ * 消灭回调函数，使用
+ * async和await
+ * 1.作用？
+ * 简化promise使用：不用使用.then()来指定成功/失败的回调函数
+ * 以同步编码（没有回调函数）方式，实现异步流程
+ * 
+ * 2.哪里写await
+ * 在返回promise的表达式的左侧写await：不想要promise，想要promise异步执行的成功的value数据
+ * 
+ * 3.哪里写async?
+ * await所在函数最近的函数的左侧写async
+ * 
+ * 
+ */
