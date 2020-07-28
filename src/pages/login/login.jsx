@@ -1,31 +1,40 @@
 import React, { Component } from "react";
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 /**
  * 登录路由组件
  */
-
 import './login.less'
 import logo from './images/logo.png'
 import {reqLogin} from '../../api'
-
-
-
-
+import memoryUtils from '../../utils/memoryUtils'
+import storageUtils from '../../utils/storageUtils'
+import { Redirect } from "react-router";
 
 export default class Login extends Component {
 
-  onFinish = async (err,values) => {
+  onFinish = async (values) => {
     // console.log('Received values of form: ', values);
     //请求登录
-    console.log(err);
     const {username,password} = values;
-    try{
-      const response = await reqLogin(username,password)
-      console.log('请求成功！',response.data)
-    }catch(error){
-      console.log("请求失败");
-    }
+    const result = await reqLogin(username,password)
+    console.log('请求成功！',result)
+    //const result = response.data //{status:0,data:user} {status:1,msg:'xxx'}
+   if(result.status===0){
+     console.log("登录成功！");
+     message.success('登录成功！')
+
+     //保存user
+     const user = result.data
+     memoryUtils.user = user //保存在内存中
+     storageUtils.saveUser(user) //保存到local
+
+     //跳转管理页面,用replace 不需要回退，需要用push
+     this.props.history.replace('/')
+   }else{
+    //  console.log("失败");
+     message.error(result.msg)
+   }
     
   };
 
@@ -45,12 +54,18 @@ export default class Login extends Component {
   }
 
   render() {
+    //如果用户已经登录，则跳转到后台管理页面
+    const user = memoryUtils.user;
+    if (user && user._id){
+      return <Redirect to='/' />
+    }
+
     return (
       <div className="login">
-        <head className="login-header">
+        <div className="login-header">
           <img src={logo} alt="logo" />
           <h1>React项目：后台管理系统</h1>
-        </head>
+        </div>
         <section className="login-content">
           <h2>用户登录</h2>
           <Form
