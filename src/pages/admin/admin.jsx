@@ -43,7 +43,7 @@ export default class Admin extends Component {
           <Header>Header</Header>
           <Content>
             <Switch>
-              <Redirect from='/' exact to='/home' />
+              
               <Route path='/home' component={Home} />
               <Route path='/category' component={Category} />
               <Route path='/product' component={Product} />
@@ -54,6 +54,7 @@ export default class Admin extends Component {
               <Route path="/charts/line" component={Line} />
               {/* <Route path="/order" component={Order}/> */}
               {/* <Route component={NotFound}/> */}
+              <Redirect to='/home' />
             </Switch>
           </Content>
           <Footer style={{ textAlign: 'center', color: '#ccc' }}>推荐使用谷歌浏览器，可以获得更佳页面操作体验</Footer>
