@@ -64,7 +64,7 @@ class LeftNav extends Component {
           this.openKey = item.key
         }
 
-        pre.push(( 
+        pre.push((
           <SubMenu key={item.key} title={item.title}>
             {this.getMenuNodes(item.children)}
           </SubMenu>
@@ -83,7 +83,6 @@ class LeftNav extends Component {
   }
 
   render() {
-    debugger
     //得到当前请求的路由路径
     const path = this.props.location.pathname
     console.log('render()', path)

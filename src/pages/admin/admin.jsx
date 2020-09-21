@@ -18,6 +18,7 @@ import User from '../user/user'
 import Bar from '../charts/bar'
 import Line from '../charts/line'
 import Pie from '../charts/pie'
+import Order from '../order/order'
 
 import './admin.less'
 
@@ -52,7 +53,7 @@ export default class Admin extends Component {
               <Route path="/charts/bar" component={Bar} />
               <Route path="/charts/pie" component={Pie} />
               <Route path="/charts/line" component={Line} />
-              {/* <Route path="/order" component={Order}/> */}
+              <Route path="/order" component={Order}/>
               {/* <Route component={NotFound}/> */}
               <Redirect to='/home' />
             </Switch>
