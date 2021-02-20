@@ -6,6 +6,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { reqWeather } from '../../api'
 import { formateDate } from '../../utils/dateUtils'
 import memoryUtils from '../../utils/memoryUtils'
+import storageUtils from '../../utils/storageUtils'
 import menuList from '../../config/menuConfig'
 
 import './index.less'
@@ -22,7 +23,7 @@ class Header extends Component {
 
 
   getTime = () => { //获取当前时间
-    setInterval(() => {
+    this.intervalId = setInterval(() => {//储存定时器id，卸载时候使用
       const currentTime = formateDate(Date.now())
       this.setState({ currentTime })
     }, 1000)
@@ -34,17 +35,6 @@ class Header extends Component {
     this.setState({ weather })
   }
 
-  /**
-    * 在第一次render（）之后执行一次
-    * 一般在此执行异步操作：发ajax请求/启动定时器
-    */
-  componentDidMount() {
-    //获取当前时间
-    this.getTime();
-    //获取当前天气
-    this.getWeather();
-
-  }
 
   getTitle = () => { //获取标题
     //得到当前请求路径
@@ -74,12 +64,31 @@ class Header extends Component {
       onOk: () => {
         // console.log('OK');
         // 删除保存的user
-
+        storageUtils.removeUser()
+        memoryUtils.user = {}
         // 跳转到Login
         this.props.history.replace('/login')
       }
     });
   }
+
+  /**
+    * 在第一次render（）之后执行一次
+    * 一般在此执行异步操作：发ajax请求/启动定时器
+    */
+  componentDidMount() {
+    //获取当前时间
+    this.getTime();
+    //获取当前天气
+    this.getWeather();
+
+  }
+  /**在当前组建卸载之前，调用 */
+  componentWillUnmount() {
+    //清除定时器
+    clearInterval(this.intervalId)
+  }
+
 
   render() {
     const { currentTime, weather } = this.state
