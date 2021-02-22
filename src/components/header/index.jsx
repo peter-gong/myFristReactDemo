@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Modal, Button, Space } from 'antd';
+import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { reqWeather } from '../../api'
