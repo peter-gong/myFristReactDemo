@@ -53,7 +53,7 @@ class Header extends Component {
         //在item的children中查找
         const cItem = item.children.find(cItem => cItem.key === path)
         //有值说明匹配到了
-        if(cItem){
+        if (cItem) {
           title = cItem.title
         }
       }
