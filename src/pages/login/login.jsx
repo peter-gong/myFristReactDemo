@@ -27,7 +27,6 @@ export default class Login extends Component {
 
       //保存user
       const user = result.data
-      debugger
       memoryUtils.user = user //保存在内存中
       storageUtils.saveUser(user) //保存到local
 

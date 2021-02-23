@@ -1,12 +1,14 @@
-import React from 'react'
-import { Button, Card, Table } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { Button, Card, message, Table } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 
 
 import LinkButton from '../../components/link-button'
+import { reqCategories, reqAddCategory, reqUpdateCategory } from '../../api'
 import './category.less'
 
 const Category = () => {
+  const [categories, setCategories] = useState([])
 
   const columns = [
     {
@@ -28,24 +30,6 @@ const Category = () => {
     },
   ];
 
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      address: 'Sidney No. 1 Lake Park',
-    },
-  ];
-
   // card的左侧，因后续有扩展，先固定显示字符串
   const title = '一级分类列表'
 
@@ -54,11 +38,27 @@ const Category = () => {
     <Button type='primary'><PlusOutlined />添加</Button>
   )
 
+  // 异步获取一级分类列表
+
+  const getCategories = async () => {
+    const result = await reqCategories('0')
+    if (result.status === 0) {
+      debugger
+      setCategories(result.data)
+    } else {
+      message.error('获取分类列表失败')
+    }
+  }
+
+  useEffect(() => {
+    getCategories()
+  }, [])
+
   return (
     <Card title={title} extra={extra}>
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={categories}
         bordered
         rowkey='key'
       />
