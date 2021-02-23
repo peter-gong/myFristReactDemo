@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Modal, Button, Space } from 'antd';
+import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { reqWeather } from '../../api'
@@ -8,6 +8,7 @@ import { formateDate } from '../../utils/dateUtils'
 import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
 import menuList from '../../config/menuConfig'
+import LinkButton from '../link-button';
 
 import './index.less'
 
@@ -83,7 +84,10 @@ class Header extends Component {
     this.getWeather();
 
   }
-  /**在当前组建卸载之前，调用 */
+
+  /**
+   * 在当前组建卸载之前，调用 
+   * */
   componentWillUnmount() {
     //清除定时器
     clearInterval(this.intervalId)
@@ -98,7 +102,8 @@ class Header extends Component {
       <div className="content">
         <div className="header-top">
           <span>欢迎，{username}</span>
-          <a href="#!" onClick={this.logout}>退出</a>
+          {/* <a href="#!" onClick={this.logout}>退出</a> */}
+          <LinkButton onClick={this.logout}>退出</LinkButton>
         </div>
         <div className="header-bottom">
           <div className="header-bottom-left">{title}</div>
