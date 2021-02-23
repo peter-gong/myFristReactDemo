@@ -93,7 +93,7 @@ class LeftNav extends Component {
       <div className='left-nav'>
         <header className='left-nav-header'>
           <img src={Logo} alt="Logo" />
-          <h1>硅谷后台</h1>
+          <h1>后台管理</h1>
         </header>
         <Menu
           mode="inline"

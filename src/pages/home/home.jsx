@@ -1,12 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './home.less'
-
-export default class Home extends Component {
-  render() {
-    return (
-      <div className='home'>
-        欢迎使用后台管理系统
-      </div>
-    )
-  }
+const Home = () => {
+  return (
+    <div className='home'>
+      欢迎使用后台管理系统
+    </div>
+  )
 }
+export default Home
