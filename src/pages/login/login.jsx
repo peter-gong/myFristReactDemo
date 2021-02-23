@@ -17,10 +17,10 @@ export default class Login extends Component {
     // console.log('Received values of form: ', values);
     //请求登录
     const { username, password } = values;
-    // const result = await reqLogin(username,password)
-    const result = { status: 0, data: { user: "admin", _id: "001" } }
+    const result = await reqLogin(username, password)
+    // const result = { status: 0, data: { user: "admin", _id: "001" } }
     console.log('请求成功！', result)
-    //const result = response.data //{status:0,data:user} {status:1,msg:'xxx'}
+    // const result = response.data //{status:0,data:user} {status:1,msg:'xxx'}
     if (result.status === 0) {
       console.log("登录成功！");
       message.success('登录成功！')
