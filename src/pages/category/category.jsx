@@ -8,7 +8,8 @@ import { reqCategories, reqAddCategory, reqUpdateCategory } from '../../api'
 import './category.less'
 
 const Category = () => {
-  const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(false) // 是否正在获取数据中
+  const [categories, setCategories] = useState([]) // 一级分类列表
 
   const columns = [
     {
@@ -41,7 +42,13 @@ const Category = () => {
   // 异步获取一级分类列表
 
   const getCategories = async () => {
+
+    // 再发请求前，显示loading
+    setLoading(true)
     const result = await reqCategories('0')
+
+    // 再发请求后，隐藏loading
+    setLoading(false)
     if (result.status === 0) {
       debugger
       setCategories(result.data)
@@ -61,6 +68,8 @@ const Category = () => {
         dataSource={categories}
         bordered
         rowkey='key'
+        pagination={{ defaultPageSize: 5 }}
+        loading={loading}
       />
     </Card>
   )
